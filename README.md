@@ -1,45 +1,75 @@
 # EU AI Act RAG Assistant (in development)
 
 A Retrieval-Augmented Generation prototype that answers questions about the
-**EU AI Act** using only the regulation text itself, with per-claim citations
-back to the source pages. If the source does not support an answer, the system
-says so instead of guessing.
-
-Built as a hands-on project alongside my M.Sc. in AI & Machine Learning at
-TU Darmstadt, motivated by my work with compliance processes: a compliance
-answer without a traceable source is an answer nobody can act on.
+**EU AI Act** using only the regulation text itself, with citations back to
+the source pages. If the source does not support an answer, the system says
+so instead of guessing.
 
 ## Design goals
 
-1. **Traceability first.** Every claim in an answer carries a citation to the
-   page and passage it came from. Citation metadata is attached at chunking
-   time and preserved through retrieval and generation.
-2. **Grounded or silent.** The model answers only from retrieved context.
-   When the retrieved passages do not contain the answer, the system responds
-   "not found in the source" rather than hallucinating.
-3. **Understandable over impressive.** No orchestration frameworks. Chunking,
-   retrieval and prompting are written directly so every step is inspectable.
+1. **Traceability first.** Every answer cites the page it came from. Page
+   numbers are attached at chunking time and kept through retrieval and
+   generation.
+2. **Grounded or silent.** The model answers only from retrieved passages.
+   If they don't contain the answer, it responds "not found in the source".
+3. **Understandable over impressive.** No orchestration frameworks. Every
+   step is written directly so it can be inspected and explained.
 
-## Planned architecture
+## Architecture
 
 ```
 EU AI Act PDF
-   -> page-aware text extraction (PyMuPDF)
-   -> overlapping chunking with page metadata
-   -> sentence-transformer embeddings
-   -> ChromaDB vector store
-   -> top-k retrieval
-   -> LLM answer constrained to retrieved context, with citations
+  -> page-aware text extraction (PyMuPDF)
+  -> overlapping chunks (1,000 characters, 200 overlap) with page numbers
+  -> embeddings (all-MiniLM-L6-v2, 384 dimensions)
+  -> ChromaDB vector store
+  -> top-k retrieval
+  -> LLM answer restricted to retrieved passages, with citations
 ```
+
+Reasoning behind each choice: [docs/design-decisions.md](docs/design-decisions.md)
 
 ## Status
 
-- [x] Chunking with overlap and metadata (prototyping scripts in `/prototyping`)
-- [ ] PDF ingestion with page numbers
-- [ ] Embedding + vector store
-- [ ] Retrieval CLI
-- [ ] Cited generation + refusal path
-- [ ] Small evaluation set (question -> expected source passage)
+- [x] PDF ingestion with page numbers (144 pages)
+- [x] Overlapping chunking with page metadata (825 chunks)
+- [ ] Embeddings and ChromaDB storage (in progress)
+- [ ] Retrieval from the command line (`query.py`)
+- [ ] Cited answers and "not found in source" refusal
+- [ ] Evaluation set (10 questions with expected source pages)
 
-Early-stage and moving weekly. The `/prototyping` folder contains the
-building-block scripts the pipeline is being assembled from.
+## Project structure
+
+```
+eu-ai-rag/
+├── data/eu_ai_act.pdf        Source document
+├── docs/design-decisions.md  Why the pipeline is built this way
+├── ingest.py                 Load, chunk, embed and store the document
+├── prototyping/              Early building-block exercises
+├── requirements.txt
+└── README.md
+```
+
+## Setup
+
+```
+git clone https://github.com/NESH100/eu-ai-rag.git
+cd eu-ai-rag
+python -m venv venv
+venv\Scripts\activate          # Windows (macOS/Linux: source venv/bin/activate)
+pip install -r requirements.txt
+```
+
+## Usage
+
+```
+python ingest.py
+```
+
+Builds the vector database in `chroma_db/` (created locally, not committed).
+Run it again after changing the chunking settings or the embedding model.
+
+## Source
+
+Regulation (EU) 2024/1689 (Artificial Intelligence Act), obtained from
+EUR-Lex. © European Union, reused under the EU's document reuse policy.
