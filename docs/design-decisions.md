@@ -9,3 +9,9 @@ Why the eu-ai-rag pipeline is built the way it is, and what each choice costs.
 roughly 1,000 characters. Anything longer is silently ignored, so bigger
 chunks would lose their endings without any error.
 **Trade-off:** The cut is blind, so it happens mid-sentence and even mid-word.
+
+## 2. Overlap: 200 characters
+
+**Decision:**
+**Why:**
+**Trade-off:**
