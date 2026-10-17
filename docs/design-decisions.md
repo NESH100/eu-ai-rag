@@ -32,3 +32,7 @@ chunks would lose their endings without any error.
 **Decision:**
 **Why:**
 **What goes wrong otherwise:**
+
+## Known limitations
+
+-
