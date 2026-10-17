@@ -21,3 +21,8 @@ chunks would lose their endings without any error.
 **Decision:**
 **Why:**
 **Trade-off:**
+
+## 4. Input check: overlap must be smaller than chunk size
+
+**Decision:**
+**Why:**
