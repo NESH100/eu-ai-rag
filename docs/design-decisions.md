@@ -15,3 +15,9 @@ chunks would lose their endings without any error.
 **Decision:**
 **Why:**
 **Trade-off:**
+
+## 3. Chunking page by page
+
+**Decision:**
+**Why:**
+**Trade-off:**
