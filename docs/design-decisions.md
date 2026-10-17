@@ -26,3 +26,9 @@ chunks would lose their endings without any error.
 
 **Decision:**
 **Why:**
+
+## 5. Same embedding model for chunks and questions
+
+**Decision:**
+**Why:**
+**What goes wrong otherwise:**
