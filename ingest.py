@@ -1,7 +1,11 @@
 import pymupdf
+import chromadb
+from sentence_transformers import SentenceTransformer
 
 PDF_PATH = "data/eu_ai_act.pdf"
-
+MODEL_NAME = "all-MiniLM-L6-v2"
+DB_PATH = "chroma_db"
+COLLECTION = "eu_ai_act"
 
 def load_pages(path):
     """Read the PDF and return one entry per page: its number and its text."""
@@ -28,6 +32,15 @@ def chunk_pages(pages, chunk_size=1000, overlap=200):
                 })
             start += chunk_size - overlap
     return chunks
+
+
+def store_chunks(chunks):
+    """Embed every chunk (storing comes in the next piece)."""
+    model = SentenceTransformer(MODEL_NAME)
+    texts = [c["text"] for c in chunks]
+    embeddings = model.encode(texts, normalize_embeddings=True, show_progress_bar=True)
+    print("Embeddings shape:", embeddings.shape)
+
 
 if __name__ == "__main__":
     pages = load_pages(PDF_PATH)
