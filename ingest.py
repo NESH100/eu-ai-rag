@@ -3,9 +3,7 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 PDF_PATH = "data/eu_ai_act.pdf"
-MODEL_NAME = "all-MiniLM-L6-v2"
-DB_PATH = "chroma_db"
-COLLECTION = "eu_ai_act"
+
 
 def load_pages(path):
     """Read the PDF and return one entry per page: its number and its text."""
@@ -18,6 +16,9 @@ def load_pages(path):
 
 def chunk_pages(pages, chunk_size=1000, overlap=200):
     """Cut every page into overlapping chunks. Each chunk remembers its page."""
+    if overlap >= chunk_size:
+        raise ValueError("Overlap must be smaller than chunk_size")
+
     chunks = []
     for p in pages:
         text = p["text"]
