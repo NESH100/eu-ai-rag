@@ -3,6 +3,9 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 PDF_PATH = "data/eu_ai_act.pdf"
+MODEL_NAME = "all-MiniLM-L6-v2"
+DB_PATH = "chroma_db"
+COLLECTION = "eu_ai_act"
 
 
 def load_pages(path):
@@ -39,16 +42,34 @@ def store_chunks(chunks):
     """Embed every chunk (storing comes in the next piece)."""
     model = SentenceTransformer(MODEL_NAME)
     texts = [c["text"] for c in chunks]
+    """
+        This is what the above line does, its a compact version
+        texts = []
+        for c in chunks:
+        texts.append(c["text"])
+    """
     embeddings = model.encode(texts, normalize_embeddings=True, show_progress_bar=True)
     print("Embeddings shape:", embeddings.shape)
+
+    client = chromadb.PersistentClient(path=DB_PATH)
+    try:
+        client.delete_collection(COLLECTION)
+    except Exception:
+        pass
+    collection = client.create_collection(COLLECTION)
+
+    collection.add(
+        ids=[c["id"] for c in chunks],
+        documents=texts,
+        embeddings=embeddings.tolist(),
+        metadatas=[{"page": c["page"]} for c in chunks],
+    )
+    return collection.count()
 
 
 if __name__ == "__main__":
     pages = load_pages(PDF_PATH)
     chunks = chunk_pages(pages)
-    print("Pages:", len(pages))
-    print("Chunks:", len(chunks))
-    print("--- Example chunk ---")
-    example = chunks[200]
-    print("ID:", example["id"], "| Page:", example["page"])
-    print(example["text"][:400])
+    print("Pages:", len(pages), "| Chunks:", len(chunks))
+    stored = store_chunks(chunks)
+    print("Stored in ChromaDB:", stored)
