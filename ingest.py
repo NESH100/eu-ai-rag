@@ -73,3 +73,6 @@ if __name__ == "__main__":
     print("Pages:", len(pages), "| Chunks:", len(chunks))
     stored = store_chunks(chunks)
     print("Stored in ChromaDB:", stored)
+
+
+    
