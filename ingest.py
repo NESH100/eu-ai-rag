@@ -38,6 +38,7 @@ def chunk_pages(pages, chunk_size=1000, overlap=200):
     return chunks
 
 
+
 def store_chunks(chunks):
     """Embed every chunk (storing comes in the next piece)."""
     model = SentenceTransformer(MODEL_NAME)
@@ -50,6 +51,7 @@ def store_chunks(chunks):
     """
     embeddings = model.encode(texts, normalize_embeddings=True, show_progress_bar=True)
     print("Embeddings shape:", embeddings.shape)
+
 
     client = chromadb.PersistentClient(path=DB_PATH)
     try:
@@ -65,6 +67,8 @@ def store_chunks(chunks):
         metadatas=[{"page": c["page"]} for c in chunks],
     )
     return collection.count()
+
+
 
 
 if __name__ == "__main__":
