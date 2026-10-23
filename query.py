@@ -33,7 +33,3 @@ if __name__ == "__main__":
         print(f"\n[{i}] page {h['page']}  similarity {h['similarity']:.2f}")
         print(h["text"][:300].replace("\n", " "))
 
-
-
-
-        
