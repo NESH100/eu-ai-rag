@@ -71,6 +71,8 @@ def store_chunks(chunks):
 
 
 
+
+
 if __name__ == "__main__":
     pages = load_pages(PDF_PATH)
     chunks = chunk_pages(pages)
