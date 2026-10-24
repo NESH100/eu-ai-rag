@@ -22,6 +22,7 @@ def chunk_pages(pages, chunk_size=1000, overlap=200):
     if overlap >= chunk_size:
         raise ValueError("Overlap must be smaller than chunk_size")
 
+    
     chunks = []
     for p in pages:
         text = p["text"]
