@@ -26,8 +26,20 @@ not_in_act += [
     "What is machine learning?",
 ]
 
+scores = {}
 for label, questions in (("IN THE ACT", in_act), ("NOT IN THE ACT", not_in_act)):
     print("\n" + label)
+    scores[label] = []
     for q in questions:
         top = search(q, k=1)[0]
+        scores[label].append(top["similarity"])
         print(f"  {top['similarity']:.2f}  page {top['page']:>3}  {q}")
+
+lowest_in = min(scores["IN THE ACT"])
+highest_out = max(scores["NOT IN THE ACT"])
+print(f"\nLowest in-Act score:      {lowest_in:.2f}")
+print(f"Highest not-in-Act score: {highest_out:.2f}")
+if lowest_in > highest_out:
+    print(f"Gap from {highest_out:.2f} to {lowest_in:.2f}: any cutoff in between separates them.")
+else:
+    print("Overlap: no single cutoff separates all questions.")
