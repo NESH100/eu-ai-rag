@@ -41,15 +41,17 @@ def chunk_pages(pages, chunk_size=1000, overlap=200):
 
 
 def store_chunks(chunks):
-    """Embed every chunk (storing comes in the next piece)."""
+    
+    """Embed every chunk and save it in ChromaDB with its page number."""   
+
     model = SentenceTransformer(MODEL_NAME)
     texts = [c["text"] for c in chunks]
-    """
-        This is what the above line does, its a compact version
-        texts = []
-        for c in chunks:
-        texts.append(c["text"])
-    """
+    
+        # This is what the above line does, its a compact version
+        # texts = []
+        # for c in chunks:
+        # texts.append(c["text"])
+    
     embeddings = model.encode(texts, normalize_embeddings=True, show_progress_bar=True)
     print("Embeddings shape:", embeddings.shape)
 
