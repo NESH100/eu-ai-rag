@@ -26,9 +26,16 @@ def search(question, k=5):
 
 
 if __name__ == "__main__":
-    question = "What are the obligations of providers of high-risk AI systems?"
-    for i, h in enumerate(search(question), 1):
-        print(f"\n[{i}] page {h['page']}  similarity {h['similarity']:.2f}")
-        print(h["text"][:300].replace("\n", " "))
+    while True:
+        question = input("\nQuestion (press Enter to quit): ").strip()
+        if not question:
+            break
+        hits = search(question)
+        if hits[0]["similarity"] < CUTOFF:
+            print("Not found in the source.")
+            continue
+        for i, h in enumerate(hits, 1):
+            print(f"\n[{i}] page {h['page']}  similarity {h['similarity']:.2f}")
+            print(h["text"][:300].replace("\n", " "))
 
 
