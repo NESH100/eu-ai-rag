@@ -43,3 +43,7 @@ if lowest_in > highest_out:
     print(f"Gap from {highest_out:.2f} to {lowest_in:.2f}: any cutoff in between separates them.")
 else:
     print("Overlap: no single cutoff separates all questions.")
+
+
+
+    
