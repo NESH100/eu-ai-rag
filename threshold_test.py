@@ -35,6 +35,8 @@ for label, questions in (("IN THE ACT", in_act), ("NOT IN THE ACT", not_in_act))
         scores[label].append(top["similarity"])
         print(f"  {top['similarity']:.2f}  page {top['page']:>3}  {q}")
 
+
+
 lowest_in = min(scores["IN THE ACT"])
 highest_out = max(scores["NOT IN THE ACT"])
 print(f"\nLowest in-Act score:      {lowest_in:.2f}")
