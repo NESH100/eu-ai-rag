@@ -24,7 +24,6 @@ def search(question, k=5):
 
 
 
-
 if __name__ == "__main__":
     while True:
         question = input("\nQuestion (press Enter to quit): ").strip()
@@ -37,6 +36,8 @@ if __name__ == "__main__":
         for i, h in enumerate(hits, 1):
             print(f"\n[{i}] page {h['page']}  similarity {h['similarity']:.2f}")
             print(h["text"][:300].replace("\n", " "))
+
+
 
 
 
