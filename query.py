@@ -13,6 +13,8 @@ collection = chromadb.PersistentClient(path=DB_PATH).get_collection(COLLECTION)
 # '''
 
 
+
+
 def search(question, k=5):
     q = model.encode([question], normalize_embeddings=True).tolist()
     res = collection.query(query_embeddings=q, n_results=k)
@@ -36,6 +38,8 @@ if __name__ == "__main__":
         for i, h in enumerate(hits, 1):
             print(f"\n[{i}] page {h['page']}  similarity {h['similarity']:.2f}")
             print(h["text"][:300].replace("\n", " "))
+
+
 
 
 
