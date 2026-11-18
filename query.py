@@ -23,6 +23,10 @@ def search(question, k=5):
 
 
 
+
+
+
+
 if __name__ == "__main__":
     while True:
         question = input("\nQuestion (press Enter to quit): ").strip()
