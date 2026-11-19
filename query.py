@@ -13,6 +13,8 @@ collection = chromadb.PersistentClient(path=DB_PATH).get_collection(COLLECTION)
 # '''
 
 
+
+
 def search(question, k=5):
     q = model.encode([question], normalize_embeddings=True).tolist()
     res = collection.query(query_embeddings=q, n_results=k)
