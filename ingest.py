@@ -40,9 +40,6 @@ def chunk_pages(pages, chunk_size=1000, overlap=200):
 
 
 
-
-
-
 def store_chunks(chunks):
     
     """Embed every chunk and save it in ChromaDB with its page number."""   
