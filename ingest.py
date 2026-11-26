@@ -80,18 +80,11 @@ def store_chunks(chunks):
 
 
 
+
+
 if __name__ == "__main__":
     pages = load_pages(PDF_PATH)
     chunks = chunk_pages(pages)
     print("Pages:", len(pages), "| Chunks:", len(chunks))
     stored = store_chunks(chunks)
     print("Stored in ChromaDB:", stored)
-
-
-
-
-
-
-
-
-
